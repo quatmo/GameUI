@@ -56,7 +56,7 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="lib\createjsh.d.ts" />
+    <TypeScriptCompile Include="lib\gameui.d.ts" />
     <TypeScriptCompile Include="typescript\AssetsManager.ts" />
     <TypeScriptCompile Include="typescript\Game.ts" />
     <TypeScriptCompile Include="typescript\ScreenState.ts" />
@@ -72,13 +72,12 @@
     <TypeScriptCompile Include="typescript\UI\UIItem.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="lib\createjs-2013.12.12.min.js" />
-    <Content Include="lib\createjsh.js" />
-    <Content Include="lib\movieclip-0.6.1.min.js" />
+    <Content Include="lib\gameui.js" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptOutFile>lib/createjsh.js</TypeScriptOutFile>
+    <TypeScriptOutFile>lib/gameui.js</TypeScriptOutFile>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
