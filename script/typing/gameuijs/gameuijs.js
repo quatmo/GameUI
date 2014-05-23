@@ -7,6 +7,7 @@
 var gameui;
 (function (gameui) {
     (function (ui) {
+        // Class
         var UIItem = (function (_super) {
             __extends(UIItem, _super);
             function UIItem() {
@@ -72,6 +73,7 @@ var gameui;
                 });
             };
 
+            //calcula
             UIItem.prototype.createHitArea = function () {
                 var hit = new createjs.Shape();
 
@@ -80,6 +82,7 @@ var gameui;
                 if (b)
                     hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
 
+                //TODO. se for texto colocar uma sobra. !
                 this.hitArea = hit;
             };
             return UIItem;
@@ -91,6 +94,8 @@ var gameui;
 var gameui;
 (function (gameui) {
     (function (ui) {
+        //this class alow user to arrange objects in a grid forrmat
+        //the anchor point is the center of object
         var Grid = (function (_super) {
             __extends(Grid, _super);
             function Grid(cols, rows, width, height, padding, flowHorizontal) {
@@ -99,12 +104,16 @@ var gameui;
                 if (typeof padding === "undefined") { padding = 20; }
                 if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
                 _super.call(this);
+                //default spacing
                 this.defaultWSpacing = 800;
                 this.defaultHSpacing = 300;
+                //provided variables
                 this.flowHorizontal = false;
+                //control variables;
                 this.currentCol = 0;
                 this.currentRow = 0;
 
+                //define the variables
                 this.flowHorizontal = flowHorizontal;
                 this.cols = cols;
                 this.rows = rows;
@@ -118,6 +127,7 @@ var gameui;
                 this.width = width;
                 this.height = height;
 
+                //define other parameters
                 this.wSpacing = cols == 0 ? this.defaultWSpacing : (width - padding * 2) / cols;
                 this.hSpacing = rows == 0 ? this.defaultHSpacing : (height - padding * 2) / rows;
 
@@ -126,6 +136,7 @@ var gameui;
                 if (cols == null)
                     this.wSpacing = this.hSpacing;
             }
+            //place objecrs into a grid format
             Grid.prototype.addObject = function (object, clickCallback) {
                 if (typeof clickCallback === "undefined") { clickCallback = null; }
                 this.addChild(object);
@@ -143,6 +154,7 @@ var gameui;
                 return this.padding + this.currentRow * this.hSpacing + this.hSpacing / 2;
             };
 
+            //define next Item position
             Grid.prototype.updatePosition = function () {
                 if (!this.flowHorizontal) {
                     this.currentCol++;
@@ -167,6 +179,7 @@ var gameui;
 var gameui;
 (function (gameui) {
     (function (ui) {
+        // Class
         var Button = (function (_super) {
             __extends(Button, _super);
             function Button() {
@@ -198,6 +211,7 @@ var gameui;
             Button.prototype.onPressUp = function (Event) {
                 this.mouse = false;
 
+                //createjs.Tween.removeTweens(this);
                 this.set({ scaleX: this.originalScaleX * 1.1, scaleY: this.originalScaleY * 1.1 });
                 createjs.Tween.get(this).to({ scaleX: this.originalScaleX, scaleY: this.originalScaleY }, 200, createjs.Ease.backOut);
             };
@@ -232,10 +246,13 @@ var gameui;
                 if (event != null)
                     this.addEventListener("click", event);
 
+                //adds image into it
                 if (background != null) {
+                    //TODO tirar createjs ASSETS daqui.
                     this.background = gameui.AssetsManager.getBitmap(background);
                     this.addChildAt(this.background, 0);
 
+                    //Sets the image into the pivot center.
                     if (this.background.getBounds()) {
                         this.width = this.background.getBounds().width;
                         this.height = this.background.getBounds().height;
@@ -257,12 +274,14 @@ var gameui;
                 if (typeof event === "undefined") { event = null; }
                 _super.call(this, background, event);
 
+                //add text into it.
                 text = text.toUpperCase();
 
                 this.text = new createjs.Text(text, font, color);
                 this.text.textBaseline = "middle";
                 this.text.textAlign = "center";
 
+                //createHitArea
                 if (background == null) {
                     this.width = this.text.getMeasuredWidth() * 1.5;
                     this.height = this.text.getMeasuredHeight() * 1.5;
@@ -283,11 +302,13 @@ var gameui;
                 if (typeof event === "undefined") { event = null; }
                 if (typeof font === "undefined") { font = null; }
                 if (typeof color === "undefined") { color = null; }
+                //add space before text
                 if (text != "")
                     text = " " + text;
 
                 _super.call(this, text, event, background, font, color);
 
+                //loads icon Image
                 this.icon = gameui.AssetsManager.getBitmap(icon);
                 this.addChild(this.icon);
 
@@ -317,6 +338,7 @@ var gameui;
                 else
                     _super.call(this, 0, 1, width, height, 0, flowHorizontal);
             }
+            //adds a text object
             MenuContainer.prototype.addLabel = function (text) {
                 var textObj;
                 textObj = new ui.Label(text);
@@ -324,6 +346,7 @@ var gameui;
                 return textObj.textField;
             };
 
+            //creates a button object
             MenuContainer.prototype.addButton = function (text, event) {
                 if (typeof event === "undefined") { event = null; }
                 var buttonObj = new ui.TextButton(text, event);
@@ -348,6 +371,7 @@ var gameui;
     (function (ui) {
         var Label = (function (_super) {
             __extends(Label, _super);
+            //public container: createjs.Container;
             function Label(text, font, color) {
                 if (typeof text === "undefined") { text = ""; }
                 if (typeof font === "undefined") { font = "600 90px Myriad Pro"; }
@@ -355,6 +379,7 @@ var gameui;
                 _super.call(this);
                 text = text.toUpperCase();
 
+                //add text into it.
                 this.textField = new createjs.Text(text, font, color);
                 this.textField.textBaseline = "middle";
                 this.textField.textAlign = "center";
@@ -365,89 +390,6 @@ var gameui;
         ui.Label = Label;
     })(gameui.ui || (gameui.ui = {}));
     var ui = gameui.ui;
-})(gameui || (gameui = {}));
-var gameui;
-(function (gameui) {
-    var ScreenViewer = (function () {
-        function ScreenViewer(stage) {
-            this.viewer = new createjs.Container();
-        }
-        ScreenViewer.prototype.updateScale = function (scale) {
-            this.viewer.scaleX = this.viewer.scaleY = scale;
-        };
-
-        ScreenViewer.prototype.switchScreen = function (newScreen, parameters, transition) {
-            var _this = this;
-            if (!transition)
-                transition = new Transition();
-
-            var oldScreen = this.currentScreen;
-
-            if (transition && oldScreen) {
-                if (transition.type == "fade") {
-                    newScreen.view.alpha = 0;
-                    newScreen.view.mouseEnabled = false;
-                    oldScreen.view.mouseEnabled = false;
-                    createjs.Tween.get(newScreen.view).to({ alpha: 1 }, transition.time).call(function () {
-                        newScreen.view.mouseEnabled = true;
-                        oldScreen.view.mouseEnabled = true;
-                        _this.removeOldScreen(oldScreen);
-                        oldScreen = null;
-                    });
-                } else {
-                    this.removeOldScreen(oldScreen);
-                    oldScreen = null;
-                }
-            } else {
-                this.removeOldScreen(oldScreen);
-                oldScreen = null;
-            }
-
-            newScreen.activate(parameters);
-            this.viewer.addChild(newScreen.view);
-
-            this.currentScreen = newScreen;
-
-            if (this.currentScreen)
-                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
-        };
-
-        ScreenViewer.prototype.removeOldScreen = function (oldScreen) {
-            if (oldScreen != null) {
-                oldScreen.desactivate();
-                this.viewer.removeChild(oldScreen.view);
-                oldScreen = null;
-            }
-        };
-
-        ScreenViewer.prototype.updateViewerScale = function (realWidth, realHeight, defaultWidth, defaultHeight) {
-            var scale = realWidth / defaultWidth;
-            var currentHeight = realHeight / scale;
-            var currentWidth = realWidth / scale;
-
-            this.defaultWidth = defaultWidth;
-
-            this.headerPosition = -(currentHeight - defaultHeight) / 2;
-            this.footerPosition = defaultHeight + (currentHeight - defaultHeight) / 2;
-
-            this.viewer.scaleX = this.viewer.scaleY = scale;
-            this.viewer.y = this.viewerOffset = (currentHeight - defaultHeight) / 2 * scale;
-
-            if (this.currentScreen)
-                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
-        };
-        return ScreenViewer;
-    })();
-    gameui.ScreenViewer = ScreenViewer;
-
-    var Transition = (function () {
-        function Transition() {
-            this.time = 300;
-            this.type = "fade";
-        }
-        return Transition;
-    })();
-    gameui.Transition = Transition;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
@@ -501,72 +443,134 @@ var gameui;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
-    var Game = (function () {
-        function Game() {
-        }
-        Game.initialize = function () {
+    var GameScreen = (function () {
+        //-----------------------------------------------------------------------
+        function GameScreen(canvasElement, gameWidth, gameHeight, fps, showFps) {
+            if (typeof fps === "undefined") { fps = 60; }
             var _this = this;
-            this.myCanvas = document.getElementById("myCanvas");
+            this.defaultWidth = gameWidth;
+            this.defaultHeight = gameHeight;
+
+            //Initializes canvas Context
+            this.myCanvas = document.getElementById(canvasElement);
             var ctx = this.myCanvas.getContext("2d");
             this.stage = new createjs.Stage(this.myCanvas);
-
             createjs.Touch.enable(this.stage);
-
             createjs.Ticker.addEventListener("tick", function () {
                 _this.stage.update();
-                _this.fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
             });
+            createjs.Ticker.setFPS(fps);
 
-            createjs.Ticker.setFPS(60);
+            this.screenContainer = new createjs.Container();
+            this.stage.addChild(this.screenContainer);
 
-            this.screenViewer = new gameui.ScreenViewer(this.stage);
-            this.stage.addChild(this.screenViewer.viewer);
+            //Framerate meter
+            if (showFps) {
+                var fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#fff");
+                fpsMeter.x = 0;
+                fpsMeter.y = 0;
+                this.stage.addChild(fpsMeter);
+                createjs.Ticker.addEventListener("tick", function () {
+                    fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
+                });
+            }
 
-            this.fpsMeter = new createjs.Text("FPS", " 18px Arial ", "#fff");
-            this.fpsMeter.x = 0;
-            this.fpsMeter.y = 0;
-            this.stage.addChild(this.fpsMeter);
-
-            var r = parseInt(getQueryVariable("res"));
-
-            if (r)
-                var windowWidth = r;
-            else
-                var windowWidth = window.innerWidth;
-
-            assetscale = 1;
-            if (windowWidth <= 1024)
-                assetscale = 0.5;
-            if (windowWidth <= 420)
-                assetscale = 0.25;
-
-            console.log("using scale at " + assetscale + "x");
-            this.redim(windowWidth, window.innerHeight);
+            var windowWidth = window.innerWidth;
+            this.resizeGameScreen(windowWidth, window.innerHeight);
             window.onresize = function () {
-                _this.redim(windowWidth, window.innerHeight);
+                _this.resizeGameScreen(windowWidth, window.innerHeight);
             };
+        }
+        //switch current screen, optionaly with a pre defined transition
+        GameScreen.prototype.switchScreen = function (newScreen, parameters, transition) {
+            var _this = this;
+            //applies a default trainsition
+            //TODO to it better
+            if (!transition)
+                transition = new gameui.Transition();
+
+            //save oldscreen
+            var oldScreen = this.currentScreen;
+
+            //if transition
+            if (transition && oldScreen) {
+                //and transition = fade
+                if (transition.type == "fade") {
+                    //fade between transitions
+                    newScreen.view.alpha = 0;
+                    newScreen.view.mouseEnabled = false;
+                    oldScreen.view.mouseEnabled = false;
+                    createjs.Tween.get(newScreen.view).to({ alpha: 1 }, transition.time).call(function () {
+                        newScreen.view.mouseEnabled = true;
+                        oldScreen.view.mouseEnabled = true;
+                        _this.removeOldScreen(oldScreen);
+                        oldScreen = null;
+                    });
+                } else {
+                    this.removeOldScreen(oldScreen);
+                    oldScreen = null;
+                }
+            } else {
+                this.removeOldScreen(oldScreen);
+                oldScreen = null;
+            }
+
+            //adds the new screen on viewer
+            newScreen.activate(parameters);
+            this.screenContainer.addChild(newScreen.view);
+
+            this.currentScreen = newScreen;
+
+            //updates current screen
+            if (this.currentScreen)
+                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
         };
 
-        Game.tick = function () {
-            this.stage.update();
-        };
-
-        Game.redim = function (deviceWidth, deviceHeight, updateCSS) {
+        //resize GameScreen to a diferent scale
+        GameScreen.prototype.resizeGameScreen = function (deviceWidth, deviceHeight, updateCSS) {
             if (typeof updateCSS === "undefined") { updateCSS = true; }
             this.myCanvas.width = deviceWidth;
             this.myCanvas.height = deviceHeight;
 
-            this.screenViewer.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
-
-            if (updateCSS)
-                setMobileScale(deviceWidth);
+            this.updateViewerScale(deviceWidth, deviceHeight, this.defaultWidth, this.defaultHeight);
+            //if (updateCSS) setMobileScale(deviceWidth)
         };
-        return Game;
+
+        //updates screen viewer scale
+        GameScreen.prototype.updateViewerScale = function (realWidth, realHeight, defaultWidth, defaultHeight) {
+            var scale = realWidth / defaultWidth;
+            var currentHeight = realHeight / scale;
+            var currentWidth = realWidth / scale;
+            this.defaultWidth = defaultWidth;
+
+            //set header and footer positions
+            this.headerPosition = -(currentHeight - defaultHeight) / 2;
+            this.footerPosition = defaultHeight + (currentHeight - defaultHeight) / 2;
+
+            //set the viewer offset to centralize in window
+            this.screenContainer.scaleX = this.screenContainer.scaleY = scale;
+            this.screenContainer.y = this.viewerOffset = (currentHeight - defaultHeight) / 2 * scale;
+
+            //updates current screen
+            if (this.currentScreen)
+                this.currentScreen.redim(this.headerPosition, this.footerPosition, this.defaultWidth);
+        };
+
+        //deletes old screen
+        GameScreen.prototype.removeOldScreen = function (oldScreen) {
+            if (oldScreen != null) {
+                oldScreen.desactivate();
+                this.screenContainer.removeChild(oldScreen.view);
+                oldScreen = null;
+            }
+        };
+        return GameScreen;
     })();
-    gameui.Game = Game;
+    gameui.GameScreen = GameScreen;
 })(gameui || (gameui = {}));
 var gameui;
 (function (gameui) {
+    // Class
     var AssetsManager = (function () {
         function AssetsManager() {
         }
@@ -574,18 +578,23 @@ var gameui;
             this.spriteSheets = spriteSheets ? spriteSheets : [];
             this.assetsManifest = assetsManifest;
 
+            //create a image array
             this.imagesArray = new Array();
 
+            //creates a preload queue
             this.loader = new createjs.LoadQueue(false);
 
+            //install sound plug-in for sounds format
             this.loader.installPlugin(createjs.Sound);
 
+            //create eventListeners
             this.loader.addEventListener("fileload", function (evt) {
                 if (evt.item.type == "image")
                     imagesArray[evt.item.id] = evt.result;
                 return true;
             });
 
+            //loads entire manifest
             this.loader.loadManifest(this.assetsManifest);
 
             return this.loader;
@@ -606,11 +615,14 @@ var gameui;
             return this.loader.getResult(name);
         };
 
+        //DEPRECIATED
+        //get a movie clip
         AssetsManager.getMovieClip = function (name) {
             var t = new window[name];
             return t;
         };
 
+        //return a sprite according to the image
         AssetsManager.getSprite = function (name, play) {
             if (typeof play === "undefined") { play = true; }
             var data = this.spriteSheets[name];
@@ -628,4 +640,25 @@ var gameui;
         return AssetsManager;
     })();
     gameui.AssetsManager = AssetsManager;
+})(gameui || (gameui = {}));
+/// <reference path="script/typing/createjs/createjs.d.ts" />
+/*GameUI JS*/
+/// <reference path="typescript/UI/UIItem.ts" />
+/// <reference path="typescript/UI/Grid.ts" />
+/// <reference path="typescript/UI/Button.ts" />
+/// <reference path="typescript/UI/MenuContainer.ts" />
+/// <reference path="typescript/UI/Label.ts" />
+/// <reference path="typescript/ScreenState.ts" />
+/// <reference path="typescript/GameScreen.ts" />
+/// <reference path="typescript/AssetsManager.ts" />
+var gameui;
+(function (gameui) {
+    var Transition = (function () {
+        function Transition() {
+            this.time = 300;
+            this.type = "fade";
+        }
+        return Transition;
+    })();
+    gameui.Transition = Transition;
 })(gameui || (gameui = {}));

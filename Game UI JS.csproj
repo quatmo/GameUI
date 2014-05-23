@@ -45,7 +45,7 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptSourceMap>False</TypeScriptSourceMap>
     <TypeScriptModuleKind>none</TypeScriptModuleKind>
   </PropertyGroup>
@@ -56,15 +56,19 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="lib\gameui.d.ts" />
+    <TypeScriptCompile Include="script\typing\createjs-lib\createjs-lib.d.ts" />
+    <TypeScriptCompile Include="script\typing\createjs\createjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\easeljs\easeljs.d.ts" />
+    <None Include="script\typing\gameuijs\gameuijs.d.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <TypeScriptCompile Include="script\typing\preloadjs\preloadjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\soundjs\soundjs.d.ts" />
+    <TypeScriptCompile Include="script\typing\tweenjs\tweenjs.d.ts" />
     <TypeScriptCompile Include="typescript\AssetsManager.ts" />
-    <TypeScriptCompile Include="typescript\Game.ts" />
+    <TypeScriptCompile Include="typescript\GameScreen.ts" />
     <TypeScriptCompile Include="typescript\ScreenState.ts" />
-    <TypeScriptCompile Include="typescript\ScreenViewer.ts" />
-    <TypeScriptCompile Include="script\typing\easeljs.d.ts" />
-    <TypeScriptCompile Include="script\typing\preloadjs.d.ts" />
-    <TypeScriptCompile Include="script\typing\soundjs.d.ts" />
-    <TypeScriptCompile Include="script\typing\tweenjs.d.ts" />
+    <TypeScriptCompile Include="typescript\Transition.ts" />
     <TypeScriptCompile Include="typescript\UI\Button.ts" />
     <TypeScriptCompile Include="typescript\UI\Grid.ts" />
     <TypeScriptCompile Include="typescript\UI\Label.ts" />
@@ -72,13 +76,22 @@
     <TypeScriptCompile Include="typescript\UI\UIItem.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="lib\gameui.js" />
+    <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="script\typing\gameuijs\gameuijs.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptOutFile>lib/gameui.js</TypeScriptOutFile>
+    <TypeScriptOutFile>script/typing/gameuijs/gameuijs.js</TypeScriptOutFile>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <OutputPath>lib\</OutputPath>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

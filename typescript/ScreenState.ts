@@ -33,7 +33,8 @@ module gameui {
             this.content.visible = false;
         }
 
-        public redim(headerY: number, footerY: number,width:number) {
+        public redim(headerY: number, footerY: number, width: number) {
+
             this.footer.y = footerY;
             this.header.y = headerY;
              
@@ -56,6 +57,5 @@ module gameui {
         public back(): void {
             exitApp();
         }
-     
     }
 }

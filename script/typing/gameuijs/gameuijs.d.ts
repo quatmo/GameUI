@@ -1,7 +1,4 @@
-/// <reference path="../script/typing/easeljs.d.ts" />
-/// <reference path="../script/typing/preloadjs.d.ts" />
-/// <reference path="../script/typing/soundjs.d.ts" />
-/// <reference path="../script/typing/tweenjs.d.ts" />
+/// <reference path="../createjs/createjs.d.ts" />
 declare module gameui.ui {
     class UIItem extends createjs.Container {
         public width: number;
@@ -75,25 +72,6 @@ declare module gameui.ui {
         constructor(text?: string, font?: string, color?: string);
     }
 }
-declare module gameui {
-    class ScreenViewer {
-        public viewer: createjs.Container;
-        private headerPosition;
-        private footerPosition;
-        private viewerOffset;
-        private defaultWidth;
-        public currentScreen: ScreenState;
-        constructor(stage: createjs.Stage);
-        public updateScale(scale: number): void;
-        public switchScreen(newScreen: ScreenState, parameters?: any, transition?: Transition): void;
-        private removeOldScreen(oldScreen);
-        public updateViewerScale(realWidth: number, realHeight: number, defaultWidth: number, defaultHeight: number): void;
-    }
-    class Transition {
-        public time: number;
-        public type: string;
-    }
-}
 declare function exitApp(): void;
 declare module gameui {
     class ScreenState {
@@ -114,18 +92,23 @@ declare function getQueryVariable(variable: string): any;
 declare function setMobileScale(a: number): any;
 declare var assetscale: number;
 declare module gameui {
-    class Game {
-        static screenViewer: ScreenViewer;
-        static stage: createjs.Stage;
-        static myCanvas: HTMLCanvasElement;
-        static defaultWidth: number;
-        static defaultHeight: number;
-        static canvasWidth: number;
-        static canvasHeight: number;
-        static fpsMeter: createjs.Text;
-        static initialize(): void;
-        private static tick();
-        static redim(deviceWidth: number, deviceHeight: number, updateCSS?: boolean): void;
+    class GameScreen {
+        public stage: createjs.Stage;
+        private myCanvas;
+        private defaultWidth;
+        private defaultHeight;
+        private canvasWidth;
+        private canvasHeight;
+        private headerPosition;
+        private footerPosition;
+        private viewerOffset;
+        private currentScreen;
+        private screenContainer;
+        constructor(canvasElement: string, gameWidth: number, gameHeight?: number, fps?: number, showFps?: boolean);
+        public switchScreen(newScreen: ScreenState, parameters?: any, transition?: Transition): void;
+        private resizeGameScreen(deviceWidth, deviceHeight, updateCSS?);
+        private updateViewerScale(realWidth, realHeight, defaultWidth, defaultHeight);
+        private removeOldScreen(oldScreen);
     }
 }
 declare module gameui {
@@ -140,5 +123,11 @@ declare module gameui {
         private static getImage(name);
         static getMovieClip(name: string): createjs.Sprite;
         static getSprite(name: string, play?: boolean): createjs.Sprite;
+    }
+}
+declare module gameui {
+    class Transition {
+        public time: number;
+        public type: string;
     }
 }
