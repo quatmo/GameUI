@@ -46,15 +46,15 @@ declare module gameui.ui {
     }
     class ImageButton extends Button {
         public background: createjs.DisplayObject;
-        constructor(background: string, event?: (event: createjs.MouseEvent) => any);
+        constructor(image: string, event: (event?: createjs.MouseEvent) => any);
     }
     class TextButton extends ImageButton {
         public text: createjs.Text;
-        constructor(text?: string, event?: (event: createjs.MouseEvent) => any, background?: string, font?: string, color?: string);
+        constructor(text?: string, font?: string, color?: string, background?: string, event?: (event: createjs.MouseEvent) => any);
     }
     class IconButton extends TextButton {
         public icon: createjs.DisplayObject;
-        constructor(icon?: string, text?: string, background?: string, event?: (event: createjs.MouseEvent) => any, font?: string, color?: string);
+        constructor(icon?: string, text?: string, font?: string, color?: string, background?: string, event?: (event: createjs.MouseEvent) => any);
     }
 }
 declare module gameui.ui {
@@ -120,7 +120,7 @@ declare module gameui {
         static loadAssets(assetsManifest: any[], spriteSheets?: any[], imagesArray?: HTMLImageElement[]): createjs.LoadQueue;
         static getImagesArray(): HTMLImageElement[];
         static getBitmap(name: string): createjs.DisplayObject;
-        private static getImage(name);
+        private static getLoadedImage(name);
         static getMovieClip(name: string): createjs.Sprite;
         static getSprite(name: string, play?: boolean): createjs.Sprite;
     }

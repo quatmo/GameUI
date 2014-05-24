@@ -19,13 +19,13 @@ module gameui.ui {
         
         //creates a button object
         public addButton(text: string, event: (event: createjs.MouseEvent) => any = null ): TextButton {
-            var buttonObj: TextButton = new TextButton(text,event);
+            var buttonObj: TextButton = new TextButton(text, null, null, null, event);
             this.addObject(buttonObj);
             return buttonObj;
         }
 
         public addOutButton(text: string, event: (event: createjs.MouseEvent) => any = null): TextButton {
-            var buttonObj: TextButton = new TextButton(text, event);
+            var buttonObj: TextButton = new TextButton(text,null,null,null, event);
             this.addObject(buttonObj);
             return buttonObj;
         }

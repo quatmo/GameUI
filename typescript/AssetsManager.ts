@@ -38,14 +38,25 @@
             return this.imagesArray;
         }
 
+        //gets a image from assets
         public static getBitmap(name: string): createjs.DisplayObject {
+
+            //if image id is described in spritesheets
             if (this.spriteSheets[name])
-                return this.getSprite(name,false);
-            else
-                return new createjs.Bitmap(this.getImage(name));
+                return this.getSprite(name, false);
+
+            //if image is preloaded
+            var image = this.getLoadedImage(name);
+            if (image)
+                return new createjs.Bitmap(image);
+
+            //or else try grab by filename
+            return new createjs.Bitmap(name);
+
         }
 
-        private static getImage(name: string): HTMLImageElement {
+        //Get a preloaded Image from assets
+        private static getLoadedImage(name: string): HTMLImageElement {
             return <HTMLImageElement>this.loader.getResult(name);
         }
         
@@ -59,7 +70,7 @@
         //return a sprite according to the image
         public static getSprite (name: string, play:boolean=true): createjs.Sprite {
             var data = this.spriteSheets[name];
-            for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getImage(data.images[i]);
+            for (var i in data.images) if (typeof data.images[i] == "string") data.images[i] = this.getLoadedImage(data.images[i]);
 
             var spritesheet = new createjs.SpriteSheet(data);
 

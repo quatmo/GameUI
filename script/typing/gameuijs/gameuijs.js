@@ -239,17 +239,16 @@ var gameui;
 
         var ImageButton = (function (_super) {
             __extends(ImageButton, _super);
-            function ImageButton(background, event) {
-                if (typeof event === "undefined") { event = null; }
+            function ImageButton(image, event) {
                 _super.call(this);
 
                 if (event != null)
                     this.addEventListener("click", event);
 
                 //adds image into it
-                if (background != null) {
+                if (image != null) {
                     //TODO tirar createjs ASSETS daqui.
-                    this.background = gameui.AssetsManager.getBitmap(background);
+                    this.background = gameui.AssetsManager.getBitmap(image);
                     this.addChildAt(this.background, 0);
 
                     //Sets the image into the pivot center.
@@ -269,9 +268,8 @@ var gameui;
 
         var TextButton = (function (_super) {
             __extends(TextButton, _super);
-            function TextButton(text, event, background, font, color) {
+            function TextButton(text, font, color, background, event) {
                 if (typeof text === "undefined") { text = ""; }
-                if (typeof event === "undefined") { event = null; }
                 _super.call(this, background, event);
 
                 //add text into it.
@@ -296,17 +294,15 @@ var gameui;
 
         var IconButton = (function (_super) {
             __extends(IconButton, _super);
-            function IconButton(icon, text, background, event, font, color) {
+            function IconButton(icon, text, font, color, background, event) {
                 if (typeof icon === "undefined") { icon = ""; }
                 if (typeof text === "undefined") { text = ""; }
-                if (typeof event === "undefined") { event = null; }
                 if (typeof font === "undefined") { font = null; }
-                if (typeof color === "undefined") { color = null; }
                 //add space before text
                 if (text != "")
                     text = " " + text;
 
-                _super.call(this, text, event, background, font, color);
+                _super.call(this, text, font, color, background, event);
 
                 //loads icon Image
                 this.icon = gameui.AssetsManager.getBitmap(icon);
@@ -349,14 +345,14 @@ var gameui;
             //creates a button object
             MenuContainer.prototype.addButton = function (text, event) {
                 if (typeof event === "undefined") { event = null; }
-                var buttonObj = new ui.TextButton(text, event);
+                var buttonObj = new ui.TextButton(text, null, null, null, event);
                 this.addObject(buttonObj);
                 return buttonObj;
             };
 
             MenuContainer.prototype.addOutButton = function (text, event) {
                 if (typeof event === "undefined") { event = null; }
-                var buttonObj = new ui.TextButton(text, event);
+                var buttonObj = new ui.TextButton(text, null, null, null, event);
                 this.addObject(buttonObj);
                 return buttonObj;
             };
@@ -604,14 +600,23 @@ var gameui;
             return this.imagesArray;
         };
 
+        //gets a image from assets
         AssetsManager.getBitmap = function (name) {
+            //if image id is described in spritesheets
             if (this.spriteSheets[name])
                 return this.getSprite(name, false);
-            else
-                return new createjs.Bitmap(this.getImage(name));
+
+            //if image is preloaded
+            var image = this.getLoadedImage(name);
+            if (image)
+                return new createjs.Bitmap(image);
+
+            //or else try grab by filename
+            return new createjs.Bitmap(name);
         };
 
-        AssetsManager.getImage = function (name) {
+        //Get a preloaded Image from assets
+        AssetsManager.getLoadedImage = function (name) {
             return this.loader.getResult(name);
         };
 
@@ -628,7 +633,7 @@ var gameui;
             var data = this.spriteSheets[name];
             for (var i in data.images)
                 if (typeof data.images[i] == "string")
-                    data.images[i] = this.getImage(data.images[i]);
+                    data.images[i] = this.getLoadedImage(data.images[i]);
 
             var spritesheet = new createjs.SpriteSheet(data);
 

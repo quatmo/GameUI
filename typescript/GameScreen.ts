@@ -147,8 +147,6 @@ module gameui{
                 oldScreen = null;
             }
         }
-
-
     }
 }
 

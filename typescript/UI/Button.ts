@@ -50,21 +50,22 @@ module gameui.ui {
                 }
             });
         }
+
     }
 
     export class ImageButton extends Button {
 
         public background: createjs.DisplayObject;
 
-        constructor(background: string, event: (event: createjs.MouseEvent) => any = null) {
+        constructor(image: string, event: (event?: createjs.MouseEvent) => any) {
             super();
 
             if (event != null) this.addEventListener("click", event);
            
             //adds image into it
-            if (background != null) {
+            if (image != null) {
                 //TODO tirar createjs ASSETS daqui.
-                this.background = AssetsManager.getBitmap(background);
+                this.background = AssetsManager.getBitmap(image);
                 this.addChildAt(this.background, 0);
 
                 //Sets the image into the pivot center.
@@ -85,7 +86,7 @@ module gameui.ui {
 
         public text: createjs.Text;
 
-        constructor(text: string = "", event: (event: createjs.MouseEvent) => any = null, background?: string, font?: string, color?:string) {
+        constructor(text: string = "", font?: string, color?: string , background?: string,  event?: (event: createjs.MouseEvent) => any) {
             super(background,event);
 
             //add text into it.
@@ -110,12 +111,12 @@ module gameui.ui {
 
         public icon: createjs.DisplayObject;
 
-        constructor(icon: string = "", text = "", background?: string , event: (event: createjs.MouseEvent) => any = null, font: string = null, color: string = null) {
+        constructor(icon: string = "", text = "", font: string = null, color?: string , background?: string, event?: (event: createjs.MouseEvent) => any) {
 
             //add space before text
             if (text != "") text = " " + text;
             
-            super(text, event, background, font, color);
+            super(text, font, color ,background, event);
 
             //loads icon Image
             this.icon = AssetsManager.getBitmap(icon);
