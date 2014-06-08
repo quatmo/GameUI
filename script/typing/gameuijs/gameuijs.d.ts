@@ -8,26 +8,23 @@ declare module gameui.ui {
         private antX;
         private antY;
         public centralize(): void;
-        public fadeOut(): void;
-        public fadeIn(): void;
+        public fadeOut(scaleX?: number, scaleY?: number): void;
+        public fadeIn(scaleX?: number, scaleY?: number): void;
         public createHitArea(): void;
     }
 }
 declare module gameui.ui {
     class Grid extends UIItem {
-        private defaultWSpacing;
-        private defaultHSpacing;
         private flowHorizontal;
         private cols;
         private rows;
         private padding;
-        private scroll;
         private hSpacing;
         private wSpacing;
         private currentCol;
         private currentRow;
-        constructor(cols?: number, rows?: number, width?: number, height?: number, padding?: number, flowHorizontal?: boolean);
-        public addObject(object: createjs.DisplayObject, clickCallback?: (event: createjs.MouseEvent) => any): void;
+        constructor(cols: number, rows: number, width: number, height: number, padding?: number, flowHorizontal?: boolean);
+        public addObject(object: createjs.DisplayObject): void;
         private getXPos();
         private getYPos();
         private updatePosition();
@@ -55,6 +52,7 @@ declare module gameui.ui {
     class IconButton extends TextButton {
         public icon: createjs.DisplayObject;
         constructor(icon?: string, text?: string, font?: string, color?: string, background?: string, event?: (event: createjs.MouseEvent) => any);
+        public updateLabel(value: string): void;
     }
 }
 declare module gameui.ui {

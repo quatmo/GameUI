@@ -21,16 +21,18 @@ var gameui;
                 this.centered = true;
             };
 
-            UIItem.prototype.fadeOut = function () {
+            UIItem.prototype.fadeOut = function (scaleX, scaleY) {
                 var _this = this;
+                if (typeof scaleX === "undefined") { scaleX = 0.5; }
+                if (typeof scaleY === "undefined") { scaleY = 0.5; }
                 this.animating = true;
                 this.antX = this.x;
                 this.antY = this.y;
                 this.mouseEnabled = false;
                 createjs.Tween.removeTweens(this);
                 createjs.Tween.get(this).to({
-                    scaleX: 0.5,
-                    scaleY: 0.5,
+                    scaleX: scaleX,
+                    scaleY: scaleY,
                     alpha: 0,
                     x: this.antX,
                     y: this.antY
@@ -46,8 +48,10 @@ var gameui;
                 });
             };
 
-            UIItem.prototype.fadeIn = function () {
+            UIItem.prototype.fadeIn = function (scaleX, scaleY) {
                 var _this = this;
+                if (typeof scaleX === "undefined") { scaleX = 0.5; }
+                if (typeof scaleY === "undefined") { scaleY = 0.5; }
                 this.visible = true;
                 this.animating = true;
 
@@ -56,7 +60,7 @@ var gameui;
                     this.antY = this.y;
                 }
 
-                this.scaleX = 0.5, this.scaleY = 0.5, this.alpha = 0, this.x = this.x;
+                this.scaleX = scaleX, this.scaleY = scaleY, this.alpha = 0, this.x = this.x;
                 this.y = this.y;
 
                 this.mouseEnabled = false;
@@ -99,14 +103,7 @@ var gameui;
         var Grid = (function (_super) {
             __extends(Grid, _super);
             function Grid(cols, rows, width, height, padding, flowHorizontal) {
-                if (typeof cols === "undefined") { cols = null; }
-                if (typeof rows === "undefined") { rows = null; }
-                if (typeof padding === "undefined") { padding = 20; }
-                if (typeof flowHorizontal === "undefined") { flowHorizontal = false; }
                 _super.call(this);
-                //default spacing
-                this.defaultWSpacing = 800;
-                this.defaultHSpacing = 300;
                 //provided variables
                 this.flowHorizontal = false;
                 //control variables;
@@ -118,32 +115,18 @@ var gameui;
                 this.cols = cols;
                 this.rows = rows;
                 this.padding = padding;
-
-                if (width == null)
-                    width = 1536;
-                if (height == null)
-                    height = 2048;
-
                 this.width = width;
                 this.height = height;
 
                 //define other parameters
-                this.wSpacing = cols == 0 ? this.defaultWSpacing : (width - padding * 2) / cols;
-                this.hSpacing = rows == 0 ? this.defaultHSpacing : (height - padding * 2) / rows;
-
-                if (rows == null)
-                    this.hSpacing = this.wSpacing;
-                if (cols == null)
-                    this.wSpacing = this.hSpacing;
+                this.wSpacing = (width - padding * 2) / cols;
+                this.hSpacing = (height - padding * 2) / rows;
             }
             //place objecrs into a grid format
-            Grid.prototype.addObject = function (object, clickCallback) {
-                if (typeof clickCallback === "undefined") { clickCallback = null; }
+            Grid.prototype.addObject = function (object) {
                 this.addChild(object);
                 object.x = this.getXPos();
                 object.y = this.getYPos();
-                if (clickCallback != null)
-                    object.addEventListener("click", clickCallback);
                 this.updatePosition();
             };
 
@@ -307,13 +290,19 @@ var gameui;
                 //loads icon Image
                 this.icon = gameui.AssetsManager.getBitmap(icon);
                 this.addChild(this.icon);
+                this.text.textAlign = "left";
 
-                if (this.icon.getBounds()) {
+                if (this.icon.getBounds())
                     this.icon.regY = this.icon.getBounds().height / 2;
-                    this.icon.x = -(40 + this.icon.getBounds().width + this.text.getMeasuredWidth()) / 2;
-                    this.text.x = this.icon.x + this.icon.getBounds().width;
-                }
+                this.updateLabel(text);
             }
+            IconButton.prototype.updateLabel = function (value) {
+                this.text.text = value;
+                if (this.icon.getBounds()) {
+                    this.icon.x = -(this.icon.getBounds().width + 10 + this.text.getMeasuredWidth()) / 2;
+                    this.text.x = this.icon.x + this.icon.getBounds().width + 10;
+                }
+            };
             return IconButton;
         })(TextButton);
         ui.IconButton = IconButton;
@@ -502,6 +491,9 @@ var gameui;
                         _this.removeOldScreen(oldScreen);
                         oldScreen = null;
                     });
+
+                    //fade old screen out
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 0 }, transition.time);
                 } else {
                     this.removeOldScreen(oldScreen);
                     oldScreen = null;
@@ -648,11 +640,11 @@ var gameui;
 })(gameui || (gameui = {}));
 /// <reference path="script/typing/createjs/createjs.d.ts" />
 /*GameUI JS*/
-/// <reference path="typescript/UI/UIItem.ts" />
-/// <reference path="typescript/UI/Grid.ts" />
-/// <reference path="typescript/UI/Button.ts" />
-/// <reference path="typescript/UI/MenuContainer.ts" />
-/// <reference path="typescript/UI/Label.ts" />
+/// <reference path="typescript/ui/UIItem.ts" />
+/// <reference path="typescript/ui/Grid.ts" />
+/// <reference path="typescript/ui/Button.ts" />
+/// <reference path="typescript/ui/MenuContainer.ts" />
+/// <reference path="typescript/ui/Label.ts" />
 /// <reference path="typescript/ScreenState.ts" />
 /// <reference path="typescript/GameScreen.ts" />
 /// <reference path="typescript/AssetsManager.ts" />

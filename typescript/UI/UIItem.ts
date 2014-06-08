@@ -21,19 +21,19 @@ module gameui.ui {
             this.centered = true;
         }
 
-        public fadeOut() {
+        public fadeOut(scaleX: number= 0.5, scaleY: number= 0.5) {
             this.animating = true;
             this.antX = this.x;
             this.antY = this.y;
             this.mouseEnabled = false;
             createjs.Tween.removeTweens(this);
             createjs.Tween.get(this).to({
-                scaleX: 0.5,
-                scaleY: 0.5,
+                scaleX: scaleX,
+                scaleY: scaleY,
                 alpha: 0,
                 x: this.antX,
                 y: this.antY,
-            },200, createjs.Ease.quadIn).call(() => {
+            }, 200, createjs.Ease.quadIn).call(() => {
                     this.visible = false;
                     this.x = this.antX;
                     this.y = this.antY;
@@ -44,7 +44,7 @@ module gameui.ui {
                 });
         }
 
-        public fadeIn() {
+        public fadeIn(scaleX: number= 0.5, scaleY: number= 0.5) {
             this.visible = true;
             this.animating = true;
 
@@ -53,8 +53,8 @@ module gameui.ui {
                 this.antY = this.y;
             }
 
-            this.scaleX = 0.5,
-            this.scaleY = 0.5,
+            this.scaleX = scaleX,
+            this.scaleY = scaleY,
             this.alpha = 0,
             this.x = this.x;
             this.y = this.y;
@@ -67,7 +67,7 @@ module gameui.ui {
                 alpha: 1,
                 x: this.antX,
                 y: this.antY,
-            }, 400,createjs.Ease.quadOut)
+            }, 400, createjs.Ease.quadOut)
 
                 .call(() => {
                     this.mouseEnabled = true;
@@ -81,12 +81,12 @@ module gameui.ui {
             var hit = new createjs.Shape();
 
             var b = this.getBounds();
-            
+
             if (b) hit.graphics.beginFill("#000").drawRect(b.x, b.y, b.width, b.height);
             //TODO. se for texto colocar uma sobra. !
 
             this.hitArea = hit;
-            
+
         }
     }
 }

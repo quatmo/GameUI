@@ -69,11 +69,11 @@
     <TypeScriptCompile Include="typescript\GameScreen.ts" />
     <TypeScriptCompile Include="typescript\ScreenState.ts" />
     <TypeScriptCompile Include="typescript\Transition.ts" />
-    <TypeScriptCompile Include="typescript\UI\Button.ts" />
-    <TypeScriptCompile Include="typescript\UI\Grid.ts" />
-    <TypeScriptCompile Include="typescript\UI\Label.ts" />
-    <TypeScriptCompile Include="typescript\UI\MenuContainer.ts" />
-    <TypeScriptCompile Include="typescript\UI\UIItem.ts" />
+    <TypeScriptCompile Include="typescript\ui\Button.ts" />
+    <TypeScriptCompile Include="typescript\ui\Grid.ts" />
+    <TypeScriptCompile Include="typescript\ui\Label.ts" />
+    <TypeScriptCompile Include="typescript\ui\MenuContainer.ts" />
+    <TypeScriptCompile Include="typescript\ui\UIItem.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>

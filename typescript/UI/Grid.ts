@@ -4,17 +4,11 @@ module gameui.ui  {
     //the anchor point is the center of object
     export class Grid extends UIItem {
 
-        //default spacing
-        private defaultWSpacing = 800;
-        private defaultHSpacing = 300;
-
         //provided variables
         private flowHorizontal = false;
         private cols: number;
         private rows: number;
-
         private padding: number;
-        private scroll;
 
         //defined variabples
         private hSpacing: number;
@@ -24,7 +18,7 @@ module gameui.ui  {
         private currentCol: number = 0;
         private currentRow: number = 0;
 
-        constructor(cols: number = null, rows: number = null, width?: number, height?: number, padding: number = 20, flowHorizontal: boolean = false) {
+        constructor(cols: number, rows: number, width: number, height: number, padding?: number, flowHorizontal?: boolean) {
             super();
 
             //define the variables
@@ -32,28 +26,21 @@ module gameui.ui  {
             this.cols = cols;
             this.rows = rows;
             this.padding = padding;
-
-            if (width == null) width = 1536;
-            if (height == null) height = 2048;
-
             this.width = width;
             this.height = height;
 
             //define other parameters
-            this.wSpacing = cols == 0 ? this.defaultWSpacing : (width - padding * 2) / cols;
-            this.hSpacing = rows == 0 ? this.defaultHSpacing : (height - padding * 2) / rows;
+            this.wSpacing = (width - padding * 2) / cols;
+            this.hSpacing = (height - padding * 2) / rows;
 
-            if (rows == null) this.hSpacing = this.wSpacing
-            if (cols == null) this.wSpacing = this.hSpacing
         }
 
         //place objecrs into a grid format
-        public addObject(object: createjs.DisplayObject, clickCallback: (event: createjs.MouseEvent) => any = null) {
+        public addObject(object: createjs.DisplayObject) {
 
             this.addChild(object);
             object.x = this.getXPos();
             object.y = this.getYPos();
-            if (clickCallback != null) object.addEventListener("click", clickCallback);
             this.updatePosition();
         }
 

@@ -53,6 +53,8 @@ module gameui{
                 createjs.Ticker.addEventListener("tick", () => {
                     fpsMeter.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + " FPS";
                 });
+
+
             }
         
             var windowWidth = window.innerWidth;
@@ -86,6 +88,9 @@ module gameui{
                         this.removeOldScreen(oldScreen)
                         oldScreen = null;
                     });
+
+                    //fade old screen out
+                    createjs.Tween.get(oldScreen.view).to({ alpha: 0 }, transition.time);
                 }
                 else {
                     this.removeOldScreen(oldScreen);
